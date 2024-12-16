@@ -3,9 +3,9 @@ import './App.css'
 
 function App() {
 
-const [endPoint, setEndPoints] = useState('');
+const [endPoint, setEndPoints] = useState('')
 const [container, setContainer] = useState([])
-
+const [finalPoint, setFinalPoint] = useState('')
 
 const url = `https://imdb8.p.rapidapi.com/auto-complete?q=+${endPoint}`;
 const options = {
@@ -29,10 +29,11 @@ try {
 
 useEffect(() => {
   fetchMe()
-}, [endPoint])
+}, [finalPoint])
 
-const submitHandler = () => {
+const submitHandler = (e) => {
   e.preventDefault()
+  setFinalPoint(endPoint)
 }
 
   return (
