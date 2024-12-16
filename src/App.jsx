@@ -4,10 +4,10 @@ import './App.css'
 function App() {
 
 const [endPoint, setEndPoints] = useState('');
+const [container, setContainer] = useState([])
 
-const search = async () => {
-  /*
-  const url = 'https://imdb8.p.rapidapi.com/auto-complete?q=game%20of%20thr';
+
+const url = `https://imdb8.p.rapidapi.com/auto-complete?q=+${endPoint}`;
 const options = {
 	method: 'GET',
 	headers: {
@@ -16,27 +16,39 @@ const options = {
 	}
 };
 
+async function fetchMe () {
 try {
 	const response = await fetch(url, options);
-	const result = await response.json();
-	console.log(result);
+	const result = await response.text();
+  const data = JSON.parse(result);
+  setContainer(data.d)
 } catch (error) {
 	console.error(error);
 }
 }
 
 useEffect(() => {
-  search()
-}, [])
-*/
+  fetchMe()
+}, [endPoint])
+
+const submitHandler = () => {
+  e.preventDefault()
 }
 
   return (
     <div className="App">
-      <form>
+      <form onSubmit={submitHandler}>
         <input type="text" value={endPoint} onChange={(e) => setEndPoints(e.target.value)}/>
         <button type="submit">submit</button>
       </form>
+      {container.map((item) => {
+        return (
+          <div>
+            <img src={item.i.imageUrl} alt="" />
+            <p>{item.l}</p>
+          </div>
+        )
+      })}
     </div>
   )
 }
